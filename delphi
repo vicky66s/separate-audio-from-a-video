@@ -1,0 +1,50 @@
+uses
+  System.SysUtils, Winapi.Windows;
+
+procedure ExtractAudioFromVideo(const videoFilePath, audioOutputPath: string);
+var
+  ffmpegPath, command: string;
+  startupInfo: TStartupInfo;
+  processInfo: TProcessInformation;
+begin
+  // Path to ffmpeg executable
+  ffmpegPath := 'path_to_ffmpeg.exe'; // Specify the path to ffmpeg.exe
+  
+  // Command to extract audio from video
+  command := Format('%s -i %s -vn -acodec copy %s', [ffmpegPath, videoFilePath, audioOutputPath]);
+
+  // Prepare the process startup information
+  ZeroMemory(@startupInfo, SizeOf(startupInfo));
+  startupInfo.cb := SizeOf(startupInfo);
+  startupInfo.dwFlags := STARTF_USESHOWWINDOW;
+  startupInfo.wShowWindow := SW_HIDE;
+
+  // Execute the command
+  if CreateProcess(nil, PChar(command), nil, nil, False, 0, nil, nil, startupInfo, processInfo) then
+  begin
+    // Wait for the process to finish
+    WaitForSingleObject(processInfo.hProcess, INFINITE);
+
+    // Close process handles
+    CloseHandle(processInfo.hProcess);
+    CloseHandle(processInfo.hThread);
+  end
+  else
+    ShowMessage('Failed to execute FFmpeg command.');
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  videoFilePath, audioOutputPath: string;
+begin
+  // Path to the video file
+  videoFilePath := 'path_to_your_video_file.mp4'; // Specify the path to your video file
+  
+  // Output path for the extracted audio
+  audioOutputPath := 'output_audio.wav'; // Specify the output audio file path
+  
+  // Extract audio from the video
+  ExtractAudioFromVideo(videoFilePath, audioOutputPath);
+
+  ShowMessage('Audio extracted successfully!');
+end;
