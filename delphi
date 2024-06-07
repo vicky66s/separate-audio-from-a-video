@@ -7,10 +7,10 @@ var
   startupInfo: TStartupInfo;
   processInfo: TProcessInformation;
 begin
-  // Path to ffmpeg executable
+  // Path to ffmpeg executable.
   ffmpegPath := 'path_to_ffmpeg.exe'; // Specify the path to ffmpeg.exe
   
-  // Command to extract audio from video
+  // Command to extract audio from video.
   command := Format('%s -i %s -vn -acodec copy %s', [ffmpegPath, videoFilePath, audioOutputPath]);
 
   // Prepare the process startup information
