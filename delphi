@@ -1,3 +1,4 @@
+// 00000000000000000000
 uses
   System.SysUtils, Winapi.Windows;
 
@@ -7,7 +8,7 @@ var
   startupInfo: TStartupInfo;
   processInfo: TProcessInformation;
 begin
-  // Path to ffmpeg executable.00000000000000000000
+  // Path to ffmpeg executable.
   ffmpegPath := 'path_to_ffmpeg.exe'; // Specify the path to ffmpeg.exe65
   
   // Command to extract audio from video.
